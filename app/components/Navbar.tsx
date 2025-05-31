@@ -28,7 +28,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           {/* 左侧：返回按钮或Logo */}
           {showBack ? (
-            <button 
+            <button
               onClick={() => router.back()}
               className="flex items-center gap-2 text-lg font-bold hover:text-gray-600 transition-colors"
             >
@@ -42,13 +42,15 @@ export default function Navbar() {
           )}
 
           {/* 右侧：购物车 */}
-          <Link 
-            href="/cart" 
-            className="relative p-2 hover:bg-gray-100 rounded-full"
-          >
-            <AiOutlineShoppingCart className="w-6 h-6" />
-            <CartBadge />
-          </Link>
+          {pathname !== '/cart' && (
+            <Link
+              href="/cart"
+              className="relative p-2 hover:bg-gray-100 rounded-full"
+            >
+              <AiOutlineShoppingCart className="w-6 h-6" />
+              <CartBadge />
+            </Link>
+          )}
         </div>
       </div>
     </nav>
@@ -57,9 +59,9 @@ export default function Navbar() {
 
 function CartBadge() {
   const totalItems = useCartStore(state => state.getTotalItems());
-  
+
   if (totalItems === 0) return null;
-  
+
   return (
     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
       {totalItems}

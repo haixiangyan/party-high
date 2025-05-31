@@ -18,7 +18,7 @@ export default function EventDetail() {
   const [event, setEvent] = useState<IEvent | null>(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart, items, updateQuantity } = useCartStore();
-  
+
   const cartItem = items.find(item => item.event.id === id);
   const isInCart = !!cartItem;
 
@@ -80,25 +80,6 @@ export default function EventDetail() {
             </div>
           </div>
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500">活动时间</span>
-                  <span>{new Date().toLocaleDateString()}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500">活动地点</span>
-                  <span>{event.location.name}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500">活动评分</span>
-                  <Ratings rate={event.rate} size="sm" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           <div className="flex items-center gap-4">
             <div className="flex items-center border rounded-lg">
               <Button
@@ -121,7 +102,7 @@ export default function EventDetail() {
                 <AiOutlinePlus className="h-4 w-4" />
               </Button>
             </div>
-            <Button 
+            <Button
               className="flex-1 h-10"
               onClick={handleAddToCart}
               disabled={isInCart}
@@ -134,49 +115,14 @@ export default function EventDetail() {
 
       {/* 详情标签页 */}
       <div className="mt-8">
-        <Tabs defaultValue="detail" className="w-full">
-          <TabsList className="w-full justify-start">
-            <TabsTrigger value="detail">活动详情</TabsTrigger>
-            <TabsTrigger value="notice">活动须知</TabsTrigger>
-            <TabsTrigger value="comments">用户评价</TabsTrigger>
-          </TabsList>
-          <TabsContent value="detail" className="mt-4">
-            <Card>
-              <CardContent className="p-6">
-                <div className="prose max-w-none">
-                  <h3 className="text-lg font-semibold mb-4">活动介绍</h3>
-                  <p>{event.description}</p>
-                  {/* 这里可以添加更多富文本内容 */}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="notice" className="mt-4">
-            <Card>
-              <CardContent className="p-6">
-                <div className="prose max-w-none">
-                  <h3 className="text-lg font-semibold mb-4">活动须知</h3>
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>请提前15分钟到达活动地点</li>
-                    <li>请穿着舒适的服装和鞋子</li>
-                    <li>活动期间请遵守现场工作人员指引</li>
-                    <li>如遇天气原因，活动可能会改期</li>
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="comments" className="mt-4">
-            <Card>
-              <CardContent className="p-6">
-                <div className="space-y-4">
-                  {/* 这里可以添加用户评价列表 */}
-                  <p className="text-gray-500 text-center py-8">暂无评价</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        <Card>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              {/* 这里可以添加用户评价列表 */}
+              <p className="text-gray-500 text-center py-8">暂无评价</p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
