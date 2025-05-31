@@ -2,6 +2,7 @@
 
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 
 interface RatingsProps {
   rate: number;
@@ -22,32 +23,39 @@ const Ratings: React.FC<RatingsProps> = ({
     lg: 'w-6 h-6'
   };
 
+  // 使用 Math.round 确保服务器端和客户端结果一致
+  const displayRate = Math.round(rate * 10) / 10;
+
+  const stars = useMemo(() => {
+    return Array.from({ length: maxRate }).map((_, index) => (
+      index < Math.floor(rate) ? (
+        <AiFillStar
+          key={index}
+          className={cn(sizeMap[size], 'text-yellow-400')}
+        />
+      ) : index < Math.ceil(rate) ? (
+        <AiFillStar
+          key={index}
+          className={cn(sizeMap[size], 'text-yellow-400 opacity-50')}
+        />
+      ) : (
+        <AiOutlineStar
+          key={index}
+          className={cn(sizeMap[size], 'text-gray-200')}
+        />
+      )
+    ));
+  }, [rate, maxRate, size]);
+
   return (
     <div className={cn('flex items-center gap-0.5', className)}>
-      {Array.from({ length: maxRate }).map((_, index) => (
-        index < Math.floor(rate) ? (
-          <AiFillStar
-            key={index}
-            className={cn(sizeMap[size], 'text-yellow-400')}
-          />
-        ) : index < Math.ceil(rate) ? (
-          <AiFillStar
-            key={index}
-            className={cn(sizeMap[size], 'text-yellow-400 opacity-50')}
-          />
-        ) : (
-          <AiOutlineStar
-            key={index}
-            className={cn(sizeMap[size], 'text-gray-200')}
-          />
-        )
-      ))}
+      {stars}
       <span className={cn(
         'ml-2 text-sm text-gray-500',
         size === 'sm' && 'text-xs',
         size === 'lg' && 'text-base'
       )}>
-        {rate.toFixed(1)}
+        {displayRate}
       </span>
     </div>
   );
