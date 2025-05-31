@@ -9,7 +9,7 @@ interface Props {
 
 const CategorySidebar: React.FC<Props> = ({ categories, selectedId, onSelect }) => {
   return (
-    <nav className="block w-20 sm:w-28 bg-white border-r h-full overflow-y-auto sticky top-0 z-20">
+    <nav className="block w-20 sm:w-28 bg-white border-r h-full overflow-y-auto">
       <ul>
         {categories.map(cat => (
           <li

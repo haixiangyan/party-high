@@ -20,7 +20,7 @@ const EventsPage: FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="fixed inset-0 top-18 bg-gray-50 flex overflow-hidden">
       <CategorySidebar
         categories={mockCategories}
         selectedId={selectedCategoryId}
