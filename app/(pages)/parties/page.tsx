@@ -36,7 +36,7 @@ const PartyListPage: FC = () => {
       preparing: 'text-yellow-500 bg-yellow-50',
       delivering: 'text-purple-500 bg-purple-50',
       delivered: 'text-green-500 bg-green-50',
-      cancelled: 'text-gray-500 bg-gray-50'
+      cancelled: 'text-red-500 bg-red-50'
     };
     return colorMap[status];
   };
@@ -130,7 +130,7 @@ const PartyListPage: FC = () => {
           const partyInfo = generatePartyInfo(order);
           
           return (
-            <Card key={order.id} className="overflow-hidden">
+            <Card key={order.id} className="overflow-hidden py-0">
               <CardContent className="p-0">
                 <Link href={`/orders/${order.id}`}>
                   <div className="p-4">

@@ -4,8 +4,9 @@ import { AiOutlineShoppingCart, AiOutlineArrowLeft } from "react-icons/ai";
 import Link from "next/link";
 import { useCartStore } from "@/app/store/cart";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function Navbar() {
+function NavbarContent() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -79,6 +80,23 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={
+      <nav className="border-b bg-white sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <div className="text-xl font-bold">Party High</div>
+            <div className="w-6 h-6"></div>
+          </div>
+        </div>
+      </nav>
+    }>
+      <NavbarContent />
+    </Suspense>
   );
 }
 
