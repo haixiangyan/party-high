@@ -6,6 +6,7 @@ import Ratings from "@/app/components/Ratings";
 import { Button } from "@/components/ui/button";
 import { AiFillEnvironment, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useCartStore } from "@/app/store/cart";
+import Link from 'next/link';
 
 interface IEventProps {
   data: IEvent
@@ -26,25 +27,26 @@ const Event: FC<IEventProps> = (props) => {
 
   return (
     <Card className="w-80">
-      <CardHeader>
-        <CardTitle>{data.title}</CardTitle>
-        <CardDescription>{data.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {data.image && (
-          <Image src={data.image} alt={data.title} width={400} height={200} className="rounded-lg" />
-        )}
+      <Link href={`/event/${data.id}`}>
+        <CardHeader>
+          <CardTitle>{data.title}</CardTitle>
+          <CardDescription>{data.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {data.image && (
+            <Image src={data.image} alt={data.title} width={400} height={200} className="rounded-lg" />
+          )}
 
-        <div className="mt-4 flex flex-row items-center">
-          <AiFillEnvironment />
-          <span className="ml-1">{data.location.name}</span>
-        </div>
+          <div className="mt-4 flex flex-row items-center">
+            <AiFillEnvironment />
+            <span className="ml-1">{data.location.name}</span>
+          </div>
 
-        <div className="flex items-center">
-          <Ratings rate={data.rate} size="sm" />
-        </div>
-
-      </CardContent>
+          <div className="flex items-center">
+            <Ratings rate={data.rate} size="sm" />
+          </div>
+        </CardContent>
+      </Link>
       <CardFooter className="flex justify-between items-center">
         {!isInCart ? (
           <Button 
