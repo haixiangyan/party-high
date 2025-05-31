@@ -13,6 +13,7 @@ interface CartStore {
   clearCart: () => void
   getTotalItems: () => number
   updateQuantity: (eventId: string, quantity: number) => void
+  getCartItemQuantity: (eventId: string) => number
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -65,5 +66,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
           : item
       )
     }))
+  },
+
+  getCartItemQuantity: (eventId: string) => {
+    const item = get().items.find((item: CartItem) => item.event.id === eventId)
+    return item?.quantity || 0
   }
 })) 

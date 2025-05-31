@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import ProductCard from './ProductCard';
-import { ICategory, IEvent } from '../types/party';
+import { ICategory, IEvent } from '@/app/types/party';
 
 interface Props {
   categories: ICategory[];
@@ -65,7 +65,9 @@ const ProductList: React.FC<Props> = ({ categories, events, selectedCategoryId, 
       {grouped.map(cat => (
         <div
           key={cat.id}
-          ref={el => (sectionRefs.current[cat.id] = el)}
+          ref={el => { 
+            sectionRefs.current[cat.id] = el;
+          }}
           id={`cat-${cat.id}`}
           className="mb-6"
         >

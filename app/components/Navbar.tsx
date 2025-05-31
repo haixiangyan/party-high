@@ -3,19 +3,37 @@
 import { AiOutlineShoppingCart, AiOutlineArrowLeft } from "react-icons/ai";
 import Link from "next/link";
 import { useCartStore } from "@/app/store/cart";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // 根据路径判断是否需要显示返回按钮
   const getNavConfig = () => {
-    if (pathname.startsWith('/event/')) {
+    if (pathname.startsWith('/events/') && pathname !== '/events') {
       return { showBack: true, title: '活动详情' };
     }
     if (pathname === '/cart') {
       return { showBack: true, title: '购物车' };
+    }
+    // 使用正则表达式匹配订单详情页面，如 /orders/order_1748661317908_805z3d436
+    const orderDetailPattern = /^\/orders\/order_\d+_[a-z0-9]+$/;
+    if (orderDetailPattern.test(pathname)) {
+      return { showBack: true, title: '订单详情' };
+    }
+    if (pathname === '/parties') {
+      // 派对列表页面 - 首页
+      return { showBack: false, title: 'Party High' };
+    }
+    if (pathname === '/events') {
+      // 商品/活动列表页面
+      return { showBack: true, title: '创建 Party' };
+    }
+    if (pathname === '/orders') {
+      // 订单列表页面
+      return { showBack: false, title: '订单列表' };
     }
     return { showBack: false, title: '' };
   };
@@ -29,14 +47,21 @@ export default function Navbar() {
           {/* 左侧：返回按钮或Logo */}
           {showBack ? (
             <button
-              onClick={() => router.back()}
+              onClick={() => {
+                const to = searchParams.get('to');
+                if (to) {
+                  router.push(to);
+                } else {
+                  router.back();
+                }
+              }}
               className="flex items-center gap-2 text-lg font-bold hover:text-gray-600 transition-colors"
             >
               <AiOutlineArrowLeft className="w-5 h-5" />
               {title}
             </button>
           ) : (
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/parties" className="text-xl font-bold">
               Party High
             </Link>
           )}

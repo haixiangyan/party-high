@@ -17,11 +17,11 @@ const Ratings: React.FC<RatingsProps> = ({
   size = 'md',
   className
 }) => {
-  const sizeMap = {
+  const sizeMap = useMemo(() => ({
     sm: 'w-4 h-4',
     md: 'w-5 h-5',
     lg: 'w-6 h-6'
-  };
+  }), []);
 
   // 使用 Math.round 确保服务器端和客户端结果一致
   const displayRate = Math.round(rate * 10) / 10;
@@ -45,7 +45,7 @@ const Ratings: React.FC<RatingsProps> = ({
         />
       )
     ));
-  }, [rate, maxRate, size]);
+  }, [rate, maxRate, size, sizeMap]);
 
   return (
     <div className={cn('flex items-center gap-0.5', className)}>

@@ -1,13 +1,8 @@
 import React from 'react';
-
-interface Category {
-  id: string;
-  name: string;
-  icon?: React.ReactNode;
-}
+import { ICategory } from '@/app/types/party';
 
 interface Props {
-  categories: Category[];
+  categories: ICategory[];
   selectedId: string;
   onSelect: (id: string) => void;
 }

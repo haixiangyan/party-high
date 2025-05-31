@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { IParty } from "../types/party";
 
 interface IProps {
@@ -9,7 +10,8 @@ const Party: FC<IProps> = (props) => {
 
   return (
     <div>
-      <h1>Party</h1>
+      <h1>Party: {data.title}</h1>
+      <p>{data.description}</p>
     </div>
   )
 }

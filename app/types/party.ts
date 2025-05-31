@@ -42,4 +42,4 @@ export interface IParty {
   members: IUser[];
   createdAt: string;
   updatedAt: string;
-}
+} 
