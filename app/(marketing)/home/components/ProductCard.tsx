@@ -38,7 +38,7 @@ const ProductCard: React.FC<{ data: IEvent }> = ({ data }) => {
           </div>
 
           {/* 月售/标签/套餐/折扣 */}
-          <div className="flex flex-wrap items-center gap-2 mb-1">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs text-yellow-700 font-medium">月售 {monthlySales}</span>
             {tag && (
               <span className="text-xs px-2 py-0.5 rounded bg-yellow-50 text-yellow-600 border border-yellow-200">
@@ -66,7 +66,7 @@ const ProductCard: React.FC<{ data: IEvent }> = ({ data }) => {
           <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
             {!isInCart ? (
               <Button size="sm" className="rounded-full px-2 py-0 text-[12px] bg-yellow-400 text-black font-bold hover:bg-yellow-500" onClick={() => addToCart(data)}>
-                选套餐
+                添加
               </Button>
             ) : (
               <div className="flex items-center">

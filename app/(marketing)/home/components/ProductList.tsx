@@ -69,7 +69,7 @@ const ProductList: React.FC<Props> = ({ categories, events, selectedCategoryId, 
           id={`cat-${cat.id}`}
           className="mb-6"
         >
-          <h3 className="text-lg font-bold mb-3 px-2 pt-4 text-gray-800 sticky top-0 bg-gray-50 z-10">{cat.name}</h3>
+          <h3 className="font-bold p-2 text-gray-800 sticky top-0 bg-white z-10 shadow-sm">{cat.name}</h3>
           <div className="grid grid-cols-1">
             {cat.events.map(event => (
               <ProductCard key={event.id} data={event} />
