@@ -1,49 +1,62 @@
 'use client'
 
-import { mockCategoryList, mockPartyList, mockEventList } from "./mock";
-import { useEffect, useMemo, useState } from "react";
-import { ICategory, IParty, IEvent } from "./types/party";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Event from "./components/Event";
+import { mockCategoryList, mockEventList } from "./mock";
+import { useEffect, useState, useRef } from "react";
+import { ICategory, IEvent } from "./types/party";
+import CategorySidebar from "./components/CategorySidebar";
+import ProductList from "./components/ProductList";
 
 export default function Home() {
-  const [categories, setCategories] = useState<ICategory[]>(mockCategoryList);
-  const [parties, setParties] = useState<IParty[]>(mockPartyList);
-  const [events, setEvents] = useState<IEvent[]>(mockEventList);
+  const [categories] = useState<ICategory[]>(mockCategoryList);
+  const [events] = useState<IEvent[]>(mockEventList);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(categories[0]?.id || '');
+  const [scrollToCategoryId, setScrollToCategoryId] = useState<string | undefined>(undefined);
+  const [isScrollingByClick, setIsScrollingByClick] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>();
+  // 点击左侧分类时，设置 scrollToCategoryId 并高亮，定位期间不响应右侧滚动
+  const handleSidebarSelect = (id: string) => {
+    setSelectedCategoryId(id);
+    setScrollToCategoryId(id);
+    setIsScrollingByClick(true);
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    scrollTimeout.current = setTimeout(() => {
+      setScrollToCategoryId(undefined);
+      setIsScrollingByClick(false);
+    }, 500);
+  };
 
-  const selectedEvents = useMemo(() => {
-    if (!selectedCategoryId) return events;
-    return events.filter(event => event.category.id === selectedCategoryId);
-  }, [selectedCategoryId, events])
+  // 右侧滚动时，自动高亮左侧分类，但定位期间不响应
+  const handleCategoryInView = (id: string) => {
+    if (!isScrollingByClick) {
+      setSelectedCategoryId(id);
+    }
+  };
 
   useEffect(() => {
-    if (categories.length > 0) {
+    if (categories.length > 0 && !selectedCategoryId) {
       setSelectedCategoryId(categories[0].id);
     }
-  }, [categories])
+  }, [categories, selectedCategoryId]);
 
   return (
-    <div className="px-8 py-8">
-      <header className="px-8">
-        <Input placeholder="搜索..." />
-      </header>
-
-      <Tabs className="justify-center flex-row my-4" value={selectedCategoryId} onValueChange={(value) => setSelectedCategoryId(value)}>
-        <TabsList>
-          {categories.map(category => (
-            <TabsTrigger key={category.id} value={category.id}>{category.icon}{category.name}</TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
-
-      <main className="flex flex-wrap gap-4 justify-center">
-        {selectedEvents.map((event: IEvent) => (
-          <Event key={event.id} data={event} />
-        ))}
-      </main>
+    <div className="flex h-[calc(100vh-4rem)] bg-gray-50">
+      {/* 左侧分类栏 */}
+      <CategorySidebar 
+        categories={categories} 
+        selectedId={selectedCategoryId} 
+        onSelect={handleSidebarSelect} 
+      />
+      {/* 右侧商品列表 */}
+      <div className="flex-1 overflow-y-auto">
+        <ProductList 
+          categories={categories} 
+          events={events} 
+          selectedCategoryId={selectedCategoryId}
+          scrollToCategoryId={scrollToCategoryId}
+          onCategoryInView={handleCategoryInView}
+        />
+      </div>
     </div>
   );
 }

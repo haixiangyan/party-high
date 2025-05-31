@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { IEvent } from "../types/party";
 import { FC } from "react";
 import Image from "next/image";
@@ -26,32 +26,41 @@ const Event: FC<IEventProps> = (props) => {
   };
 
   return (
-    <Card className="w-80">
-      <Link href={`/event/${data.id}`}>
-        <CardHeader>
-          <CardTitle>{data.title}</CardTitle>
-          <CardDescription>{data.description}</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <Link href={`/event/${data.id}`} className="block">
+        <div className="relative aspect-[4/3] w-full">
           {data.image && (
-            <Image src={data.image} alt={data.title} width={400} height={200} className="rounded-lg" />
+            <Image 
+              src={data.image} 
+              alt={data.title} 
+              fill 
+              className="object-cover"
+            />
           )}
-
-          <div className="mt-4 flex flex-row items-center">
-            <AiFillEnvironment />
-            <span className="ml-1">{data.location.name}</span>
-          </div>
-
-          <div className="flex items-center">
+        </div>
+        <CardContent className="p-4">
+          <CardTitle className="text-base font-medium line-clamp-1 mb-1">
+            {data.title}
+          </CardTitle>
+          <CardDescription className="text-sm text-gray-500 line-clamp-2 mb-2">
+            {data.description}
+          </CardDescription>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <AiFillEnvironment className="text-gray-400" />
+              <span className="text-sm text-gray-500">{data.location.name}</span>
+            </div>
             <Ratings rate={data.rate} size="sm" />
           </div>
         </CardContent>
       </Link>
-      <CardFooter className="flex justify-between items-center">
+      <CardFooter className="p-4 pt-0 flex justify-between items-center">
         {!isInCart ? (
           <Button 
             onClick={() => addToCart(data)}
             className="w-full"
+            size="sm"
           >
             加入购物车
           </Button>

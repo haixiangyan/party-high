@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { IEvent } from '@/app/(marketing)/home/types/party';
 import { mockEventList } from '@/app/(marketing)/home/mock';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +14,7 @@ import Ratings from '@/app/components/Ratings';
 
 export default function EventDetail() {
   const { id } = useParams();
+  const router = useRouter();
   const [event, setEvent] = useState<IEvent | null>(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart, items, updateQuantity } = useCartStore();
@@ -46,7 +47,7 @@ export default function EventDetail() {
   };
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* 左侧图片展示区 */}
         <div className="space-y-4">

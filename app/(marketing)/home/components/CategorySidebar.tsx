@@ -1,0 +1,33 @@
+import React from 'react';
+
+interface Category {
+  id: string;
+  name: string;
+  icon?: React.ReactNode;
+}
+
+interface Props {
+  categories: Category[];
+  selectedId: string;
+  onSelect: (id: string) => void;
+}
+
+const CategorySidebar: React.FC<Props> = ({ categories, selectedId, onSelect }) => {
+  return (
+    <nav className="block w-20 sm:w-28 bg-white border-r h-full overflow-y-auto sticky top-0 z-20">
+      <ul>
+        {categories.map(cat => (
+          <li
+            key={cat.id}
+            className={`px-2 sm:px-4 py-3 cursor-pointer text-center text-xs sm:text-sm transition-colors ${selectedId === cat.id ? 'bg-yellow-50 text-yellow-600 font-bold border-r-4 border-yellow-400' : 'text-gray-700 hover:bg-gray-50'}`}
+            onClick={() => onSelect(cat.id)}
+          >
+            {cat.name}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default CategorySidebar; 
