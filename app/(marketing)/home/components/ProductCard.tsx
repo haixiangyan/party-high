@@ -24,7 +24,7 @@ const ProductCard: React.FC<{ data: IEvent }> = ({ data }) => {
   const tag = data.tag || (hasDiscount ? '6.38折起' : '热销');
 
   return (
-    <div className="flex flex-col gap-4 shadow bg-white p-4">
+    <div className="flex flex-col shadow bg-white p-4">
       {/* 左侧图片+内容区域可点击跳转 */}
       <Link href={`/event/${data.id}`} className="flex flex-1 flex-row items-start gap-4 min-w-0 group">
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
@@ -32,13 +32,13 @@ const ProductCard: React.FC<{ data: IEvent }> = ({ data }) => {
         </div>
         <div className="flex-1 flex flex-col justify-between min-w-0 py-1">
           {/* 商品名和描述 */}
-          <div className="mb-3">
+          <div className="mb-2">
             <div className="text-base font-bold text-gray-900 leading-tight line-clamp-2 mb-2">{data.title}</div>
             <div className="text-xs text-gray-500 line-clamp-2">{data.description}</div>
           </div>
 
           {/* 月售/标签/套餐/折扣 */}
-          <div className="flex flex-wrap items-center gap-2 mb-3">
+          <div className="flex flex-wrap items-center gap-2 mb-1">
             <span className="text-xs text-yellow-700 font-medium">月售 {monthlySales}</span>
             {tag && (
               <span className="text-xs px-2 py-0.5 rounded bg-yellow-50 text-yellow-600 border border-yellow-200">
@@ -51,29 +51,33 @@ const ProductCard: React.FC<{ data: IEvent }> = ({ data }) => {
               </span>
             )}
           </div>
-
-          {/* 价格区域 */}
-          <div className="flex items-center gap-2">
-            <span className="text-lg text-red-500 font-bold">￥{price}</span>
-            {hasDiscount && <span className="text-sm text-gray-400 line-through">￥{originPrice}</span>}
-
-            {/* 操作按钮区 */}
-            <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
-              {!isInCart ? (
-                <Button size="sm" className="rounded-full px-2 py-0 text-[12px] bg-yellow-400 text-black font-bold hover:bg-yellow-500" onClick={() => addToCart(data)}>
-                  选套餐
-                </Button>
-              ) : (
-                <div className="flex items-center">
-                  <Button size="icon" variant="outline" onClick={() => handleQuantityChange(-1)} className="h-5 w-5" >-</Button>
-                  <span className="text-sm w-6 text-center">{cartItem.quantity}</span>
-                  <Button size="icon" variant="outline" onClick={() => handleQuantityChange(1)} className="h-5 w-5 bg-yellow-400 hover:bg-yellow-500">+</Button>
-                </div>
-              )}
-            </div>
-          </div>
         </div>
       </Link>
+
+      <div className="flex flex-row gap-4">
+        <div className="w-20"></div>
+
+        {/* 价格区域 */}
+        <div className="flex items-center justify-between flex-1 gap-2">
+          <span className="text-lg text-red-500 font-bold">￥{price}</span>
+          {hasDiscount && <span className="text-sm text-gray-400 line-through">￥{originPrice}</span>}
+
+          {/* 操作按钮区 */}
+          <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
+            {!isInCart ? (
+              <Button size="sm" className="rounded-full px-2 py-0 text-[12px] bg-yellow-400 text-black font-bold hover:bg-yellow-500" onClick={() => addToCart(data)}>
+                选套餐
+              </Button>
+            ) : (
+              <div className="flex items-center">
+                <Button size="icon" variant="outline" onClick={() => handleQuantityChange(-1)} className="h-5 w-5" >-</Button>
+                <span className="text-sm w-6 text-center">{cartItem.quantity}</span>
+                <Button size="icon" variant="outline" onClick={() => handleQuantityChange(1)} className="h-5 w-5 bg-yellow-400 hover:bg-yellow-500">+</Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
