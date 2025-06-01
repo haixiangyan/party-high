@@ -168,7 +168,7 @@ const PartyListPage: FC = () => {
                     {/* 派对商品预览 */}
                     <div className="space-y-3 mb-4">
                       <h4 className="text-sm font-medium text-gray-700">派对套餐</h4>
-                      <div className="flex gap-2 overflow-x-auto">
+                      <div className="flex gap-2">
                         {order.items.slice(0, 3).map((item, index) => (
                           <div key={index} className="flex-shrink-0">
                             {item.event.image && (
